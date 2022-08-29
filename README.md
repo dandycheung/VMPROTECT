@@ -8,15 +8,12 @@
 <a href="https://github.com/eaglx/VMPROTECT/network/members"><img src="https://img.shields.io/github/forks/eaglx/VMPROTECT" alt="Forks Badge"/></a>
 <a href="https://github.com/eaglx/VMPROTECT/blob/master/LICENSE"><img src="https://img.shields.io/github/license/eaglx/VMPROTECT?color=2b9348" alt="License Badge"/></a>
 [![GitHub release](https://img.shields.io/github/release/eaglx/VMPROTECT)](https://GitHub.com/eaglx/VMPROTECT/releases/)
-![Progress](https://progress-bar.dev/6/?title=progress-v0.5)
+![Progress](https://progress-bar.dev/70/?title=progress-v1.0)
 
-A virtual machine that simulates a CPU along with a few other hardware components, allows to perform arithmetic operations, reads and writes to memory and interacts with I/O devices. It can understand a machine language which can be used to program it. Virtual machines used in code obfuscation are completely different than common virtual machnines. They are very specific to the task of executing a few set of instructions. Each instruction is given a custom opcode (often generated at random). :warning: Project only tested on Linux!
-
-<img src="doc/star-history.png" height="250">
+A virtual machine that simulates a CPU along with a few other hardware components, allows to perform arithmetic operations, reads and writes to memory and interacts with I/O devices. It can understand a machine language which can be used to program it. Virtual machines used in code obfuscation are completely different than common virtual machnines. They are very specific to the task of executing a few set of instructions. Each instruction is given a custom opcode (often generated at random).
 
 ## Table of contents
 * [Requirements](#requirements)
-* [Setup](#setup)
 * [Editor](#editor)
 * [Compiler](#compiler)
 * [Debugger](#debugger)
@@ -33,58 +30,11 @@ A virtual machine that simulates a CPU along with a few other hardware component
 
 ## Requirements
 * NASM [tested on 2.13.02]
-* Only MacOS and Linux:
-  * Python3 [tested on 3.6.9]
-  * Tkinter [tested on 8.6]
-* g++ [tested on 7.5.0]
-* make [tested on 4.1]
-
-## Setup
-A bash script was created for easier setup of the development environment. At the beginning the script checks and installs the necessary software. Next, copy files and run some unit tests. The bash script is compatible with Debian-based distributions and *Advanced Package Tool*, which handle the installation and removal of software.
-
-<img src="doc/1.png" height="300">
-
-Or simply clone the project to the desired directory and install required software.
-
-After setting up the environment, the directory structure looks like in the screenshot below. There are:
-* Debugger - the source code of the debugger,
-* SharedCode - shared codes between debugger and VMCore,
-* VMCore - the source code of the virtual machine,
-* vm.inc - the file with definitions of opcodes,
-* Editor - the source code of the code editor (only MacOS and Linux),
-* VMPROTECT.py - start here (only MacOS and Linux) :smile:
-
-<img src="doc/2.png" height="150">
-
-In ShareCode/global.hpp you can set the target system environment.
-
-```c++
-#ifndef _GLOBAL_VARIABLES_HPP
-#define _GLOBAL_VARIABLES_HPP
-
-#define _LINUX_DEV_ENVIRONMENT
-// #define _WIN32_DEV_ENVIRONMENT
-
-#endif
-```
 
 ## Editor
-:warning: **SUPPORTED MacOS and Linux**
 
-The editor was written in *Python*. It is a plain text editor with no code syntax highlighting. You can write programs for *VMPROTECT* here. The window consists of a menu, a space for entering text and an output from compiling and building the program. Additionally, the editor status is shown at the bottom.
+tbd
 
-<img src="doc/3.png" height="300">
-
-There are two options for building a program. The first mode is to compile the program into a separate file and prepare the *VMPROTECT* and *VMPROTECT-DEBUGGER* executables. The second option differs from the previous one in that it merges the compiled code with *VMPROTECT*. Then *VMPROTECT* can be executed without passing arguments.
-
-<img src="doc/4.png" height="300">
-
-Remember to save the source code with the extension (e.g. *asm*) because the editor doesn't support compiling without the extension. Which can lead to the unexpected operation of the editor program. The following files will be created in the directory where the file, with source code, was saved (please do not confuse the *exe* extension with *PE* files for the Windows operating system):
-* compiled program file
-* VMPROTECT.exe
-* VmprotDebugger.exe
-
-<img src="doc/5.png" height="300">
 
 ## Compiler
 The *nasm* as compiler is used for compilation a code. Remember to include the *vm.inc* file with definitions of opcodes in your programs. Additionally, at the beginning of the code should be included magic number *0x566d*. An example program for virtual machine below.
@@ -102,71 +52,15 @@ start:
 ```
 
 ## Debugger
-When debugging a program you can use a dedicated debugger for *VMPROTECT*. The debugger has following options:
-1. Execute a program on the VM.
-2. Step execution.
-3. Exit debugger and exit debug mode in the *VMPROTECT*.
-4. Set a value in a register.
-5. Set a flag.
-6. Show the stack.
-7. Show the code data.
-8. Show the data buffer.
-9. Show all registers.
-10. Write to the code data.
-
-In case of option *10*, the overwritten data will start from where the *PC* register points. The debugger connects to the *VMPROTECT* using a TCP socket, default port *9313*. An example of debugging is seen in the screenshot below.
-
-<img src="doc/6.png" height="300">
-
-An example of debugging with the *V_DEBUG* option turned on is seen in the screenshot below.
-
-<img src="doc/7.png" height="300">
-
-In *vmcpu.cpp* change (uncomment *#define V_DEBUG*, see below code sample) to print more details.
-
-```c++
-#include "../include/vmcpu.hpp"
-
-// #define V_DEBUG  <- ****uncomment this to print debug****
-// #include <bitset>
-
-VMCPU::VMCPU()
-{
-```
+tbd
 
 ## VMCore
 ### Args
-The *VMPROTECT* can be start with no arguments but there need to be set a code to execute in *protected.hpp*.
-
-```c++
-VBYTE ProtectedData[] = { 0xFF }; // <- HERE PASTE A CODE TO EXECUTE BY VMCPU.
-```
-
-Param *-m* set a program mode. Possible program execution modes:
-* exec - normal execution,
-* debug - debugging mode, you need to run *VMPROTECT-Debugger*.
-
-Param *-p* describe a path to a file with a compiled code to execute.
-
-Example usage of *VMPROTECT* below.
-
-```ascii
-VMPROTECT.exe -m exec -p ./example-SumAndPrint
-
-# OR
-
-VMPROTECT.exe -m debug -p ./example-SumAndPrint
-```
+tbd
 
 ### Security
-The *VMCore* use (only in *Linux*) the ptrace syscall in order to implement a resistent anti debugging techniques. Patching the code wit *NOP's* will not work out of the box either, because the offset calculation must not be destroyed in order to guarantee normal execution.
+tbd
 
-```c++
-offset = value;
-if (ptrace(PTRACE_TRACEME, 0, 1, 0) == 0) offset = value;
-if (ptrace(PTRACE_TRACEME, 0, 1, 0) == -1) offset *= value;
-if (offset != value) return 0;
-```
 
 ### Documentation
 The VM will simulate a fictional cpu (32-bit). It has a custom instrucion set compared to x86-64.
@@ -176,19 +70,6 @@ The VM has 51,200 memory locations, each of which stores a 8-bit value (it can s
 
 Also, there is a data buffer which has 1024 memory locations, each of which stores a 1-bit value. This buffer will store user input.
 
-```c++
-typedef uint8_t VBYTE;
-typedef uint16_t VWORD;
-typedef uint32_t VDWORD;
-
-#define CODE_DATA_SIZE 51200
-#define STACK_SIZE 256
-#define INPUT_BUFFER_SIZE 1024
-
-VBYTE codeData[CODE_DATA_SIZE];
-VDWORD stack[STACK_SIZE];
-VBYTE dataBuffer[INPUT_BUFFER_SIZE];
-```
 
 In addition, the *VMCore* has implemented memory management through memory frames. This allows the execution of programs larger than those specified by CODE_DATA_SIZE. The frames will be saved in files named *.cached.x.frame* where *x* is the frame number.
 
@@ -214,16 +95,7 @@ moveFile | sysfilemv | 7 | YES | YES | NO |
 copyFile | sysfilecp | 8 | YES | YES | NO |
 
 Functions' implementation:
-```c++
-int createDirectory(std::string, int));
-int deleteDirectory(std::string);
-int moveDirectory(std::string, std::string);
-int copyDirectory(std::string, std::string);
-int createFile(std::string, uint8_t*, int);
-int deleteFile(std::string);
-int moveFile(std::string, std::string);
-int copyFile(std::string, std::string);
-```
+
 
 Example call function use case:
 ```nasm
@@ -249,26 +121,6 @@ path:
 #### Registers
 A register is a slot for storing value on the CPU. The VM has 10 total registers, each of which is 4 bytes (32 bits). The six of them are general purpose, one has designated role as program counter and another has role as stack pointer. The VM has also two regisers ZF (Zero Flag) and CF (Carry Flag). These two provide information about the most recently executed calculation (allows to check logical conditions such as *AND*).
 
-```c++
-/* General Purpose Registers R0 -> R7 */
-VDWORD R[8];
-struct {
-    /* Zero Flag 
-        value 1 - flag is set if the result of the last comparison was zero
-        value 0 - flag is not set
-    */
-    unsigned char ZF : 1;
-    /* Carry Flag 
-        value 1 - flag is set the results of the last comparison was moving
-        value 0 - flag is not set
-    */
-    unsigned char CF : 1;
-};
-/* Program Counter */
-VDWORD PC;
-/* Stack Pointer */
-VDWORD SP;
-```
 
 #### Instructions
 An instruction is a command which tells the CPU (and the VM's cpu) to do some task, such compare two values. Instructions have both an opcode which indicates the kind of task to perform and a set of parameters which provide inputs to the task being performed.
@@ -341,6 +193,9 @@ A6  |  PXV  | Print a value in hex, the value must be at the top of the stack |
 A7  |  PXVN  | Print a value in hex with a new line, the value must be at the top of the stack |
 
 </details>
+
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=eaglx/VMPROTECT&type=Date)](https://star-history.com/#eaglx/VMPROTECT&Date)
 
 ---
 ## Disclaimer
