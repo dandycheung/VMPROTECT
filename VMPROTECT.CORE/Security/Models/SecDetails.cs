@@ -7,5 +7,9 @@
         {
             get { return _magicNumber; }
         }
+        public static ushort MagicNumberSize
+        {
+            get { return 2; }
+        }
     }
 }
